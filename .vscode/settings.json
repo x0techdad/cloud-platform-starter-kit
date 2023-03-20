@@ -1,0 +1,11 @@
+//VSCode user settings: https://code.visualstudio.com/docs/getstarted/settings
+
+{
+  "workbench.startupEditor": "none",
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "files.eol": "\n"
+}

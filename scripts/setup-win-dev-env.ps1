@@ -11,6 +11,7 @@ $winGetPackages = @{
     'Microsoft.PowerShell' = '7.3.3.0'
 }
 $vsCodeExtensions = @{
+    'esbenp.prettier-vscode' = '9.10.4'
     'ms-vscode.powershell' = '2023.2.1'
     'hashicorp.terraform' = '2.25.4'
 }
