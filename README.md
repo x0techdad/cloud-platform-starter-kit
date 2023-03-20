@@ -32,7 +32,7 @@ No privileged access required
 
 ### Run in Local CLI
 
-1. Navigate to `.\scripts\`
+1. Navigate to `.\platform-dev-ux\scripts\`
 2. Run script `.\setup-win-dev-env.ps1`
 
 ### Run in Docker
