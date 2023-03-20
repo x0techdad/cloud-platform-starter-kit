@@ -23,55 +23,55 @@ $fileRegistryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Ad
 
 
 #Refresh system enviornment PATH variable
-function Refresh-EnvPath
+function update-envPath
 {
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") `
         + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
 # Install package with Winget function
-function Install-WingetPackage ( $packageID, $version ){
+function install-wingetPackage ( $packageID, $version ){
     $out = & winget list --id $packageID
     if ( $out -match "No installed package" ) {
         winget install --id $packageID --version $version
         Refresh-EnvPath
     } elseif ( $out -match $version ) { 
-        Write-Host "$packageID $ps7Version already installed."
+        write-host "$packageID $ps7Version already installed."
     } else {
         winget upgrade --id $packageID --version $version
     }
 }
 
 # Create PS profile function
-function Create-PSProfile ( $destinationPath, $sourcePath ){
-    New-Item -ItemType File -Path $destinationPath -Force
-    Get-Content -Path $sourcePath | Set-Content $destinationPath -Force
+function new-PSProfile ( $destinationPath, $sourcePath ){
+    new-item -itemType file -path $destinationPath -force
+    get-content -path $sourcePath | set-content $destinationPath -force
 }
 
 
 
 
 # Show file extensions and hidden files
-Push-Location
-Set-Location $fileRegistryPath
-Set-ItemProperty . HideFileExt "0"
-Set-ItemProperty . Hidden "1"
-Pop-Location
-Stop-Process -processName: Explorer -force
+push-location
+set-location $fileRegistryPath
+set-itemProperty . HideFileExt "0"
+set-itemProperty . Hidden "1"
+pop-location
+stop-process -processName: explorer -force
 
 
 
 # Install apps using Winget
 foreach($app in $winGetPackages.keys)
 {
-    Write-Host "Install $app version $($winGetPackages[$app])"
-    Install-WingetPackage -packageID $app -version $winGetPackages[$app]
+    write-host "Install $app version $($winGetPackages[$app])"
+    install-wingetPackage -packageID $app -version $winGetPackages[$app]
 }
 
 #Install VS Code extensions
 foreach($extension in $vsCodeExtensions.keys)
 {
-    Write-Host "Install $extension version $($vsCodeExtensions[$extension])"
+    write-host "install $extension version $($vsCodeExtensions[$extension])"
     code --install-extension $extension@$($vsCodeExtensions[$extension])
 }
 
@@ -79,9 +79,9 @@ foreach($extension in $vsCodeExtensions.keys)
 
 # Create and import PowerShell profiles
 #PSv5
-Create-PSProfile -destinationPath $PROFILE -sourcePath $sourceProfilePath
+new-PSProfile -destinationPath $PROFILE -sourcePath $sourceProfilePath
 #PSv7
-Create-PSProfile -destinationPath $psV7PofilePath -sourcePath $sourceProfilePath
+new-PSProfile -destinationPath $psV7PofilePath -sourcePath $sourceProfilePath
 
 
 

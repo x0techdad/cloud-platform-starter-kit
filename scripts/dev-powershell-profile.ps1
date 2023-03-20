@@ -1,18 +1,18 @@
 # Get aliases for any command
-function Get-CmdletAlias ($cmdletname) {
-  Get-Alias |
-    Where-Object -FilterScript {$_.Definition -like "$cmdletname"} |
-      Format-Table -Property Definition, Name -AutoSize
+function get-cmdletAlias ($cmdletName) {
+  get-alias |
+    where-object -filterScript {$_.definition -like "$cmdletName"} |
+      format-table -Property definition, name -autoSize
 }
 
 
 function test-admin {
     $user = [Security.Principal.WindowsIdentity]::GetCurrent();
-    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+    (new-object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 
 
-function shorten-path([string] $path) {
+function edit-path ([string] $path) {
    $loc = $path.replace($home, '~')
    $loc = $loc -replace '^[^:]+::', ''
    return ($loc -replace '\\(\.?)([^\\])[^\\]*(?=\\)','\$1$2')
@@ -21,13 +21,13 @@ function shorten-path([string] $path) {
 
 # Customize console prompt
 function prompt {
-   $colorhost = [ConsoleColor]::Magenta
-   $coloruser = [ConsoleColor]::Yellow
-   $colorbraces = [ConsoleColor]::DarkCyan
-   $colorlocation = [ConsoleColor]::Cyan
+   $colorhost = [ConsoleColor]::magenta
+   $coloruser = [ConsoleColor]::yellow
+   $colorbraces = [ConsoleColor]::darkCyan
+   $colorlocation = [ConsoleColor]::cyan
 
    $char = $([char]0x0A7)
-   $loc = shorten-path (pwd).path
+   $loc = edit-path (get-location).path
    
    write-host "$char " -n -f $colorlocation
    write-host  "$env:username@" -n -f $coloruser
@@ -36,12 +36,12 @@ function prompt {
    write-host $loc -n -f $colorlocation
    write-host '}' -n -f $colorbraces
    if (test-admin) {
-       write-host "(ELEVATED)" -n -f Red
+       write-host "(ELEVATED)" -n -f red
    }
    write-host '>' -n -f $colorbraces
    return ' '
 }
 
 # Set console window title
-$hostversion = "$($Host.Version.Major)`.$($Host.Version.Minor)`.$($Host.Version.Build)"
-$Host.UI.RawUI.WindowTitle = "PowerShell $hostversion"
+$hostVersion = "$($host.Version.Major)`.$($host.Version.Minor)`.$($host.Version.Build)"
+$host.UI.RawUI.WindowTitle = "PowerShell $hostVersion"
