@@ -1,4 +1,31 @@
-﻿# Local Windows dev environment setup script
+﻿<# 
+.SYNOPSIS
+    Setup local dev environment on Windows 10/11.
+
+.DESCRIPTION 
+    Setup local dev environment on Windows 10/11.
+ 
+.NOTES 
+    Name:   setup-win-dev-env.ps1
+    Author: @x0techdad (GitHub)
+    Requires:
+        PowerShell
+        WinGet
+    Testing: Manual Funcational and Acceptance Testing was perfmored on this script using PowerShell 5.1.19041/7.3.3 on Windows 10/11.
+
+.COMPONENT 
+    Microsoft.PowerShell.Management
+
+.COMPONENT
+    Microsoft.PowerShell.Utility
+
+.COMPONENT 
+    WinGet.exe (included in Windows 10/11)
+
+.LINK 
+    Source code: https://github.com/common-cloud/platform-dev-ux
+#>
+
 
 [CmdletBinding()]
 
@@ -6,9 +33,9 @@ $gitEmail = "archsamur@gmail.com"
 $gitName = "x0techdad"
 
 $winGetPackages = @{
-    'Microsoft.VisualStudioCode' = '1.76.0'
-    'Git.Git' = '2.39.2'
-    'Microsoft.PowerShell' = '7.3.3.0'
+    'microsoft.visualstudiocode' = '1.76.0'
+    'git.git' = '2.39.2'
+    'microsoft.powershell' = '7.3.3.0'
 }
 $vsCodeExtensions = @{
     'esbenp.prettier-vscode' = '9.10.4'
