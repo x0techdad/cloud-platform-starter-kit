@@ -21,8 +21,8 @@ Installs and configures commonly used cloud platform engineering/dev tools and O
 
 ### Software
 
-* PowerShell
-* Winget
+* [PowerShell](https://learn.microsoft.com/en-us/powershell/)
+* [Windows package manager (Winget)](https://learn.microsoft.com/en-us/windows/package-manager/)
 * Internet connectivity
 
 ### Identity and access
