@@ -1,7 +1,8 @@
-
 # Project overview
 
 Please follow the defined structure layouts and naming guidelines to keep code organized and usable.
+
+---
 
 ## Top-level directory layout
 
