@@ -2,6 +2,8 @@
 
 Installs and configures commonly used cloud platform engineering/dev tools and OS settings on a local Windows system. 
 
+---
+
 ## Tools installed:
 
     'microsoft.visualstudiocode'  = '1.76.0'
@@ -15,8 +17,6 @@ Installs and configures commonly used cloud platform engineering/dev tools and O
 
 > **To Do:** automatically update above list when the script package hashtable $winGetPackages is updated. 
 
----
-
 ## Requirements
 
 ### Software
@@ -29,13 +29,9 @@ Installs and configures commonly used cloud platform engineering/dev tools and O
 
 * 3rd-party app installs may require local admin privilege, you will be prompted for credentials during environment build.
 
----
-
 ## Testing
 
 Manual functional and acceptance testing of this script was perfmored using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
-
----
 
 ## Build:
 * Download or clone this source code repo
