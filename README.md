@@ -2,13 +2,13 @@
 
 > **Note:** this documentation is a work-in-progress - if you see something that's not quite right or missing, we'd really appreciate a PR!
 
-Cloud Platform DevUX Starter Kit is a project where cloud dev tools are maintained.
+Cloud Platform DevUX Starter Kit is a project where cloud platform dev tools are maintained.
 
 ---
 
 ## Available tools
 
-* [setup-winDevEnv.ps1](/scripts/setup-winDevEnv.ps1): installs and configures commonly used cloud dev tools and OS settings on a local Windows system.
+* [setup-winDevEnv.ps1](/scripts/setup-winDevEnv.ps1): installs and configures commonly used cloud platform dev tools and OS settings on a local Windows system.
     * Dependencies:
         * PowerShell
         * Winget
@@ -20,8 +20,8 @@ Cloud Platform DevUX Starter Kit is a project where cloud dev tools are maintain
     * Build:
         * Download or clone this source code repo
         * Run in Local PowerShell CLI:
-            * Navigate to `.\cloud-platform-dev-ux\scripts\`
-            * Invoke script `.\setup-winDevEnv.ps1`
+            * Navigate to: `.\cloud-platform-dev-ux\scripts\`
+            * Invoke script: `.\setup-winDevEnv.ps1`
         * Run in Docker: TODO
 
 ---
