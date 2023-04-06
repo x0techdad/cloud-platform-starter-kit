@@ -8,7 +8,7 @@ Cloud Platform DevUX Starter Kit is a project where cloud platform dev tools and
 
 ## Available tools
 
-* [setup-winDevEnv.ps1](/docs/reference-setup-windevenv.md) - installs and configures commonly used cloud platform engineering/dev tools and OS settings on a local Windows system. 
+* [setup-winDevEnv.ps1](/scripts/README.md) - installs and configures commonly used cloud platform engineering/dev tools and OS settings on a local Windows system. 
 
 ## Engineering / dev guides
 
