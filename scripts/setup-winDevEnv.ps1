@@ -1,9 +1,9 @@
 ﻿<# 
 .SYNOPSIS
-    Setup local dev environment on Windows 10.
+    Setup local Windows dev environment.
 
 .DESCRIPTION 
-    Setup local dev environment on Windows 10.
+   Installs and configures commonly used cloud dev tools and OS settings on a local Windows system. 
  
 .NOTES 
     Name:   setup-winDevEnv.ps1
@@ -12,7 +12,7 @@
         PowerShell (5 or 7)
         WinGet
         Internet connectivity
-    Testing: Manual functional and acceptance testing of this script was perfmored using PowerShell 5.1.19041/7.3.3 on Windows 10.c
+    Testing: Manual functional and acceptance testing of this script was perfmored using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
 
 .COMPONENT 
     Microsoft.PowerShell.Management

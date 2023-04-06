@@ -12,7 +12,7 @@ This contribution guide assumes you have at least a basic understanding of [fram
 
 ## Basics
 
-* [High-level overview of the Project](docs/high-level-overview.md)
+* [High-level overview of the Project](docs/overview.md)
 * [Building the Project](README.md#build)
 * [Opening a PR](docs/guide-opening-a-pr.md)
 * [Creating an Issue](docs/guide-creating-an-issue.md)
@@ -25,8 +25,7 @@ This contribution guide assumes you have at least a basic understanding of [fram
 
 ## References
 
-* [Design](docs/reference-design.md)
-* [Naming](docs/reference-naming.md)
+* [Project structure](docs/reference-project.md)
 * [Markdown coding syntax](https://www.markdownguide.org/basic-syntax)
-* [PowerShell coding syntax](docs/reference-syntax-powershell.md)
-* [Terraform coding syntax](docs/reference-syntax-terraform.md)
+* [PowerShell coding syntax](docs/reference-powershell.md)
+* [Terraform coding syntax](docs/reference-terraform.md)
