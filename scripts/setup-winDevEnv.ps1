@@ -24,17 +24,28 @@
   Winget.exe (included in Windows 10/11)
 
 .LINK 
-  Source code: https://github.com/common-cloud/platform-dev-ux
+  Source code: https://github.com/x0techdad/cloud-platform-dev-ux/blob/main/scripts/setup-winDevEnv.ps1
 #>
 
 
 [CmdletBinding()]
 
+# parameters
+
+param (
+    
+    [parameter( mandatory )]
+    [validatescript( { resolve-dnsName -name $_.host -Type 'mx' } )]
+    [mailaddress]
+    $gitEmail,
+
+    [parameter( mandatory )]
+    [string]
+    $gitName
+
+)
 
 # variables
-
-$gitEmail = "archsamur@gmail.com"
-$gitName = "x0techdad"
 
 $winGetPackages = @{
   'microsoft.visualstudiocode'  = '1.76.0'
