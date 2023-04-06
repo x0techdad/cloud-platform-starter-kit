@@ -165,7 +165,10 @@ function install-package ( $packageId, $version ){
           update-envPath
 
         } else {
-          write-warning "$packageId $version is already installed. A new version is available, to upgrade re-run script and include switch '-upgradePackages' or update package hashtable."
+
+          write-warning "$packageId $version is already installed. A new version is available, to upgrade update package hashtable `$winGetPackages and re-run script."
+          ## TODO: add -upgrade switch to allow for dynamic package upgrades. 
+          
         }
       
       }
@@ -276,4 +279,4 @@ install-git
 
 # end script
 
-write-output "Successfully setup environment"
+write-output "Successfully setup Windows dev environment!"
