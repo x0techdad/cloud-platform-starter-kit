@@ -6,6 +6,7 @@
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "editor.tabSize": 2,
+  "editor.detectIndentation": false,
   "editor.wordWrap": "on",
   "files.eol": "\n"
 }
