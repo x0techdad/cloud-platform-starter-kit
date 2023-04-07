@@ -62,8 +62,8 @@
   * Can use dynamic expressions and resource arguments.
   * Use as constants to be relied on, values do not change between runs (plan, apply or destroy). 
   * Avoid using locals on the live side to keep code simple. 
-* Variables 
-  * Variables vary
+* Variables
+  * 
 * Use variables and locals to merge deployment specific values with static values between runs, commonly used to merge required tags with deployment specific tags.
 
 ### 6.  Implement a standard file structure and naming convention on Terraform projects. 
@@ -86,18 +86,45 @@
   * Leads to less refactoring when requirements change.
   * Makes for easier developer onboarding to code bases.
 * Follow a "live" vs. "module" structure
-  * Think of module code as a software class, live code is the instantiation of the referenced class. 
+  * Think of module code as a software class, live code is the instantiation of the referenced class.
+  * Example:
+
+        .
+        └── root
+            ├── modules                 # IaC modules
+            |   ├── governance            # Governance resource modules
+            |   ├── identity              # IAM resource modules
+            |   ├── security              # Security resource modules
+            |   ├── network               # Network resource modules
+            |   ├── automation            # Automation resource modules 
+            |   ├── storage               # Storage resource modules
+            |   ├── compute               # Compute resource modules             
+            └── live                    # IaC live code
+                └──domain                 # Tech domain
+                    └── cloud_provider      # AWS, Azure, GCP, etc.
+                        └── cloud_region      # Documentation files
+
 * Implement a code owner strategy when sharing or reusing modules.
 * Implement a small state strategy to reduce blast radius and prevent undesired behavior when updating resources. 
 * Use Terraform workspaces appropriately and in supported scenarios.  Not suitable for isolation between prod and other SDLC stages. A common supported scenario is to support a side branch for testing complex infrastructure changes before commiting to `main`.
 * When using workspaces, use a wrapper to facilitate context switching and limit human errors.
 
-### 9. Execute terraform remotely.
-
-* `tf apply` with a plan file
+### 9. Execute terraform remotely
+* Execute runs (plan, apply, destroy) in secured self-hosted or managed environemnts.
+* Use CD pipelines to invoke runs on remote build compute instances (VMs).
+* Invoke `tf apply` with a plan file
 * Set an appropriate  `tf timeout`
-* Lock state when remotely executing
 
 ### 10. Implement practices enforcements via CI pipeline checks.
 
+* Enforce code quility, reusability, security, and other best practices as far left as possible. 
 * Lack of enforcement leads to security risk and non-compliant configurations.
+* Integrate well-known tools to faciliate:
+        
+      * Linters               : TFLint, Super-Linter
+      * Formmater             : Terragrunt
+      * Hygiene and security  : TFSec, ValidIaC, checkov, KICS
+      * Cost mgmt.            : InfraCost
+      * Visibility            : Inframap
+      * Testing               : Terratest
+      * Tagging               : Terratag

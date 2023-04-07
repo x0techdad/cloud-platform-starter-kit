@@ -7,11 +7,11 @@ Please follow the defined structure and naming guidelines to keep code organized
 ## Top-level directory layout
 
     .
-    └── cloud-platform-dev-ux
+    └── root
         ├── .vscode                 # IDE workspace config files
         ├── docs                    # Documentation files
-        ├── modules                 # Infra modules
-        ├── live                    # Infra live        
+        ├── modules                 # IaC modules
+        ├── live                    # IaC live        
         ├── scripts                 # Scripted workflows
         ├── tests                   # Automated tests
         ├── CONTRIBUTING      
