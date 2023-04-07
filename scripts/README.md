@@ -38,5 +38,5 @@ Manual functional and acceptance testing of this script was perfmored using Powe
 * Run in local PowerShell CLI:
   * Uncompress zip archive
   * Navigate to: `.\cloud-platform-dev-ux\scripts\`
-  * Invoke script: `.\setup-winDevEnv.ps1`
+  * Invoke script: `.\setup-winDevEnv.ps1 -gitEmail [email] -gitName [git display name]`
 * Run in Docker: TODO
