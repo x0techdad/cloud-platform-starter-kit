@@ -12,7 +12,7 @@
     PowerShell (5 or 7)
     WinGet
     Internet connectivity
-  Testing: Manual functional and acceptance testing of this script was perfmored using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
+  Testing: Manual functional and acceptance testing of this script was performed using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
 
 .COMPONENT 
   Microsoft.PowerShell.Management
@@ -67,7 +67,7 @@ $wingetMsiErrorRgx = '^.*Installation\sfailed.$'
 
 # functions
 
-## update system enviornment PATH variable
+## update system environment PATH variable
 
 function update-envPath
 {
@@ -107,7 +107,7 @@ function confirm-winget {
 
     if ( $wingetError ) {
         
-        write-error "Error occured when validating Winget installation: $out" -errorAction stop
+        write-error "Error occurred when validating Winget installation: $out" -errorAction stop
     
     } else {
         
@@ -177,7 +177,7 @@ function install-package ( $packageId, $version ){
 
         } else {
 
-          write-warning "$packageId $version is already installed. A new version is available, to upgrade update package hashtable `$winGetPackages and re-run script."
+          write-warning "$packageId $version is already installed. A new version is available, update the package hashtable `$winGetPackages and re-run script."
           ## TODO: add -upgrade switch to allow for dynamic package upgrades. 
           
         }
