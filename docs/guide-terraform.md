@@ -61,10 +61,16 @@
 * Locals
   * Can use dynamic expressions and resource arguments.
   * Use as constants to be relied on, values do not change between runs (plan, apply or destroy). 
-  * Avoid using locals on the live side to keep code simple. 
+  * Avoid using locals in modules, keep logic in live code.
+  * Avoid using multiple local blocks. 
+  * Use data sources to pass pass outputs to modules instaed of locals. 
 * Variables
-  * 
+  * Use to specify deployment settings in modules.
+  * If used once, set via default value.
+  * If used multiple times, use tfvars file to set variables. 
 * Use variables and locals to merge deployment specific values with static values between runs, commonly used to merge required tags with deployment specific tags.
+* Use environment variables to set variables.
+* Keep all variables in a single file : `variables.tf`
 
 ### 6.  Implement a standard file structure and naming convention on Terraform projects. 
 
