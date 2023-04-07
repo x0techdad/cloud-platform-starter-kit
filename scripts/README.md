@@ -33,9 +33,10 @@ Installs and configures commonly used cloud platform engineering/dev tools and O
 
 Manual functional and acceptance testing of this script was perfmored using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
 
-## Build:
-* Download or clone this source code repo
-* Run in Local PowerShell CLI:
+## Invoke script
+* Download zip archive `Setup-winDevEnv.ps1.zip` from the latest [project release](https://github.com/x0techdad/cloud-platform-dev-ux/releases)
+* Run in local PowerShell CLI:
+  * Uncompress zip archive
   * Navigate to: `.\cloud-platform-dev-ux\scripts\`
   * Invoke script: `.\setup-winDevEnv.ps1`
 * Run in Docker: TODO
