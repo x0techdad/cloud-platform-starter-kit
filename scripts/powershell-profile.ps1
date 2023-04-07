@@ -10,7 +10,7 @@
   Name:   powershell-profile.ps1
   Author: @x0techdad (GitHub)
   Requires: PowerShell (5 or 7)
-  Testing: Manual functional and acceptance testing of this profile was perfmored using PowerShell 5.1.19041/7.3.3 on Windows 10.
+  Testing: Manual functional and acceptance testing of this profile was performed using PowerShell 5.1.19041/7.3.3 on Windows 10.
 
 .COMPONENT 
   Microsoft.PowerShell.Management
