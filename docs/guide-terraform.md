@@ -97,8 +97,8 @@
 * Terraform is a platform, structure your code base with business and general infrastructure requirements.
   * Leads to less refactoring when requirements change.
   * Makes for easier developer onboarding to code bases.
-* Follow a "live" or "stack" vs. "module" structure
-  * Think of module code as a software class, live/stack code as the instantiation of the referenced class.
+* Seperate "live/stack/root" module code from "nested/shared" module code.
+  * Think of nested module code as a software class, root module code is the instantiation of this class.
 * Use the complete standard recommended structure:
 
         .
