@@ -1,11 +1,16 @@
 {
   "folders": [
-		{
-			"path": ".."
-		}
-	],
+    {
+      "path": ".."
+    },
+    {
+      "name": "terraform-module-repo-template",
+      "path": "../../terraform-module-repo-template"
+    }
+  ],
 	"settings": {
     "editor.tabSize": 2,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "powershell.cwd": "c:\\code\\cloud-platform-dev-ux"
 	}
 }

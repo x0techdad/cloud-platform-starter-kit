@@ -1,8 +1,7 @@
-# Setup-winDevEnv.ps1
+# Setup-winSbx.ps1
 
-Installs and configures commonly used cloud platform engineering/dev tools and OS settings on a local Windows system. 
+This script sets up a local PowerShell or Cloud sandbox on Windows OS, installs commonly used dev and build tools, applies recommended global environment settings and clones the specified git code repository. 
 
----
 
 ## Tools installed:
 
@@ -25,18 +24,18 @@ Installs and configures commonly used cloud platform engineering/dev tools and O
 * [Windows package manager (Winget)](https://learn.microsoft.com/en-us/windows/package-manager/)
 * Internet connectivity
 
-### Identity and access
+### Access
 
-* 3rd-party app installs may require local admin privilege, you will be prompted for credentials during environment build.
+* 3rd-party app installs may require local admin privileges, you will be prompted for credentials during environment build.
 
 ## Testing
 
 Manual functional and acceptance testing of this script was performed using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
 
 ## Invoke script
-* Download zip archive `Setup-winDevEnv.ps1.zip` from the latest [project release](https://github.com/x0techdad/cloud-platform-dev-ux/releases)
+* Download zip archive `setup-winSbx.ps1.zip` from the latest [project release](https://github.com/x0techdad/cloud-platform-starter-kit/releases)
 * Run in local PowerShell CLI:
   * Uncompress zip archive
-  * Navigate to: `.\cloud-platform-dev-ux\scripts\`
-  * Invoke script: `.\setup-winDevEnv.ps1 -gitEmail [email] -gitName [git display name]`
+  * Navigate to: `.\cloud-platform-starter-kit\scripts\`
+  * Invoke script: `.\setup-winSbx.ps1 -gitEmail [email] -gitName [git display name] -sbxType cloud`
 * Run in Docker: TODO
