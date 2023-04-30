@@ -1,14 +1,12 @@
-# Cloud Platform DevUX Starter Kit ☁️
+# ☁️ Cloud Platform Starter Kit ☁️
 
 > **Note:** this documentation is a work-in-progress - if you see something that's not quite right or missing, we'd really appreciate a PR!
 
-Cloud Platform DevUX Starter Kit is a project where cloud platform dev tools and open source cloud platform solutions are maintained, and community cloud platform engineering guidance / best practices are compiled.  If our tools and content are useful to you or your team, please share, or better yet, participate in [contributing](#development-and-contributing) to the improvement of this project!
-
----
+The Cloud Platform Starter Kit is a project where I complie and maintain open source cloud platform engineering tools, solutions, guidance and best practices.  If our tools or content are useful to you or your team, please share, or better yet, participate in [contributing](#contributing) to the improvement of this project!
 
 ## Available tools
 
-* [setup-winDevEnv.ps1](/scripts/README.md) - installs and configures commonly used cloud platform engineering/dev tools and OS settings on a local Windows system. 
+* [setup-winSbx.ps1](/scripts/README.md) - setup local PowerShell or Cloud sandbox on Windows OS. 
 
 ## Engineering guidance and best practices
 
@@ -19,8 +17,8 @@ Cloud Platform DevUX Starter Kit is a project where cloud platform dev tools and
 * [Powershell](/docs/guide-powershell.md)
 * [Terraform](/docs/guide-terraform.md)
 
-## Development and contributing
+## Contributing
 
-Check out the [developer guide](docs/guide-development.md) file for a basic overview on how to develop the project.  
+Project overview, references and guides for code contributors available [here](CONTRIBUTING.md).
 
-Project overview, references, and detailed guides geared towards contributors available [here](CONTRIBUTING.md).
+Guidance on how to develop this project can be found [here](docs/guide-development.md).

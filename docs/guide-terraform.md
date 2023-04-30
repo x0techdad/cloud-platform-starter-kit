@@ -4,6 +4,12 @@
 
 ---
 
+## Guides
+* [Add a new platform capability]()
+* [Add a new infrastructure stack]()
+* [Add a new infrastructure module]()
+* [Add a new infrastructure resource]()
+
 ## Naming conventions
 
 ### Files and folders
@@ -91,24 +97,35 @@
 * Terraform is a platform, structure your code base with business and general infrastructure requirements.
   * Leads to less refactoring when requirements change.
   * Makes for easier developer onboarding to code bases.
-* Follow a "live" vs. "module" structure
-  * Think of module code as a software class, live code is the instantiation of the referenced class.
-  * Example:
+* Follow a "live" or "stack" vs. "module" structure
+  * Think of module code as a software class, live/stack code as the instantiation of the referenced class.
+* Use the complete standard recommended structure:
 
         .
-        └── root
-            ├── modules                 # IaC modules
-            |   ├── governance            # Governance resource modules
-            |   ├── identity              # IAM resource modules
-            |   ├── security              # Security resource modules
-            |   ├── network               # Network resource modules
-            |   ├── automation            # Automation resource modules 
-            |   ├── storage               # Storage resource modules
-            |   ├── compute               # Compute resource modules             
-            └── live                    # IaC live code
-                └──domain                 # Tech domain
-                    └── cloud_provider      # AWS, Azure, GCP, etc.
-                        └── cloud_region      # Documentation files
+        ├── CONTRIBUTING.md               # Project contributing guidance
+        ├── README.md                     # Project overview
+        ├── LICENSE                       # Project license
+        ├── data.tf                       # Root module data resources
+        ├── main.tf                       # Root module
+        ├── outputs.tf                    # Root module outputs
+        ├── variables.tf                  # Root module variables
+        ├── versions.tf                   # Root module version locks
+        ├── ...                           # Additional files
+        ├── .vscode                       # VSCode workspace config files
+        ├── docs                          # Documentation
+        ├── examples                      # Example use cases
+        │   └── default                     # Defaults example
+        │   │   └── main.tf                   # Example module
+        │   ├── .../                        # Additional examples    
+        ├── modules                       # Nested/built-in modules
+        |   └── nested-module               # Nested module
+        |   │   ├── README.md                 # Module readme
+        |   │   ├── main.tf                   # Module
+        |   │   ├── outputs.tf                # Module outputs
+        |   │   └── variables.tf              # Module variables
+        |   ├── .../                        # Additional nested modules 
+        └── tests                         # Project tests
+            └── tflint                      # TFLint config files
 
 * Implement a code owner strategy when sharing or reusing modules.
 * Implement a small state strategy to reduce blast radius and prevent undesired behavior when updating resources. 
@@ -116,6 +133,7 @@
 * When using workspaces, use a wrapper to facilitate context switching and limit human errors.
 
 ### 9. Execute terraform remotely
+
 * Execute runs (plan, apply, destroy) in secured self-hosted or managed environemnts.
 * Use CD pipelines to invoke runs on remote build compute instances (VMs).
 * Invoke `tf apply` with a plan file

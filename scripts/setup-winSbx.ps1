@@ -1,18 +1,18 @@
-﻿<# 
+﻿<#
 .SYNOPSIS
-  Setup local Windows dev environment.
+  Setup local PowerShell or Cloud dev sandbox on Windows OS.
 
 .DESCRIPTION 
-  Installs and configures commonly used cloud dev tools and OS settings on a local Windows system. 
+  This script sets up a local PowerShell or Cloud sandbox on Windows OS, installs commonly used dev and build tools, applies recommended global environment settings and clones the specified git code repository. 
 
 .NOTES 
-  Name:   setup-winDevEnv.ps1
-  Author: @x0techdad (GitHub)
-  Requires:
+  Name        : setup-winSbx.ps1
+  Author      : @x0techdad (GitHub)
+  Requires    :
     PowerShell (5 or 7)
     WinGet
     Internet connectivity
-  Testing: Manual functional and acceptance testing of this script was performed using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
+  Testing     : Manual functional and acceptance testing of this script was performed using PowerShell 5.1.19041 and 7.3.3 on Windows 10.
 
 .COMPONENT 
   Microsoft.PowerShell.Management
@@ -24,58 +24,71 @@
   Winget.exe (included in Windows 10/11)
 
 .LINK 
-  Source code: https://github.com/x0techdad/cloud-platform-dev-ux/blob/main/scripts/setup-winDevEnv.ps1
+  Source code : https://github.com/x0techdad/cloud-platform-dev-ux/blob/main/scripts/setup-winSbx.ps1
 #>
 
 
 [CmdletBinding()]
 
-# parameters
+#parameters
 
 param (
-    
-    [parameter( mandatory )]
-    [validatescript( { resolve-dnsName -name $_.host -Type 'mx' } )]
-    [mailaddress]
-    $gitEmail,
+  [parameter( 
+    mandatory, 
+    helpMessage = "Email address associated with git commits, global setting." 
+  )] 
+  [validatescript( 
+    { resolve-dnsName -name $_.host -Type 'mx' },
+    errorMessage = "Email address is not valid."  
+  )]
+  [mailaddress]
+  $gitEmail,
 
-    [parameter( mandatory )]
-    [string]
-    $gitName
+  [parameter(
+    mandatory, 
+    helpMessage = "Name associated with git commits, global setting." 
+  )] 
+  [string]
+  $gitName,
 
+  [parameter( 
+    helpMessage = "Sandbox type, valid arguments are 'cloud' or 'posh'." 
+  )]
+  [validatePattern("/^posh|cloud$/gmi")] 
+  [string]
+  $type
 )
 
-# variables
+#variables
 
-$winGetPackages = @{
+$winGetPackages   = @{
   'microsoft.visualstudiocode'  = '1.76.0'
-  'git.git'                     = '2.39.2'
+  #'git.git'                     = '2.39.2'
   'microsoft.powershell'        = '7.3.3.0'
-  'microsoft.azurecli'          = '2.47.0'
-  'amazon.awscli'               = '2.11.9'
-  'google.cloudsdk'             = '424.0.0'
-  'hashicorp.terraform'         = '1.4.4'
-  'terraformlinters.tflint'     = '0.45.0'
+  #'microsoft.azurecli'          = '2.47.0'
+  #'amazon.awscli'               = '2.11.9'
+  #'google.cloudsdk'             = '424.0.0'
+  #'hashicorp.terraform'         = '1.4.4'
+  #'terraformlinters.tflint'     = '0.45.0'
 }
 
-$sourceProfilePath = ".\powershell-profile.ps1"
-$fileRegistryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-$wingGetLogPath = "$env:USERPROFILE\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir"
-$wingetErrorRgx = '^.*Terminating\scontext:\s(0x\S*).*$'
-$wingetMsiErrorRgx = '^.*Installation\sfailed.$'
+$sourceProfilePath  = ".\powershell-profile.ps1"
+$fileRegistryPath   = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$wingGetLogPath     = "$env:USERPROFILE\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir"
+$wingetErrorRgx     = '^.*Terminating\scontext:\s(0x\S*).*$'
+$wingetMsiErrorRgx  = '^.*Installation\sfailed.$'
 
 
-# functions
+#functions
 
-## update system environment PATH variable
+##update system environment PATH variable
 
-function update-envPath
-{
+function update-envPath {
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") `
   + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
-## show folders and files with "hidden" attribute in windows Explorer
+##show folders and files with "hidden" attribute in windows Explorer
 
 function update-explorerConfig {
     
@@ -90,7 +103,7 @@ function update-explorerConfig {
 
 }
 
-## confirms package manager is installed and functional
+##confirms package manager is installed and functional
 
 function confirm-winget {
     
@@ -127,7 +140,7 @@ function confirm-winget {
 
 }
 
-## iterate through package hashtable and install listed packages
+##iterate through package hashtable and invoke the installation of package
 
 function install-packages {
 
@@ -147,7 +160,7 @@ function install-packages {
 
 }
 
-## install or update specified Winget package
+##install or update specified Winget package
 
 function install-package ( $packageId, $version ){
 
@@ -178,7 +191,7 @@ function install-package ( $packageId, $version ){
         } else {
 
           write-warning "$packageId $version is already installed. A new version is available, update the package hashtable `$winGetPackages and re-run script."
-          ## TODO: add -upgrade switch to allow for dynamic package upgrades. 
+          ##TODO: add -upgrade switch to allow for dynamic package upgrades. 
           
         }
       
@@ -204,7 +217,7 @@ function install-package ( $packageId, $version ){
 
 }
 
-## create posh profiles from template file
+##create posh profiles from template file
 
 function import-psProfile ( $sourcePath ){
 
@@ -228,7 +241,7 @@ function import-psProfile ( $sourcePath ){
 
 }
 
-## install and configure git
+#install and configure git
 
 function install-git {
 
@@ -236,11 +249,11 @@ function install-git {
 
   try {
 
-    ### install git
+    ###install git
 
     install-package -packageID git.git -version $winGetPackages['git.git']
   
-    ### apply git configs
+    ###apply git configs
 
     write-output "Applying specified Git configs..."
 
@@ -267,27 +280,26 @@ function install-git {
 
 }
 
+#start script
 
-# start script
-
-## show file extensions and hidden files in Explorer
+##show file extensions and hidden files in Explorer
 
 update-explorerConfig
 
 
-## install app packages
+##install app packages
 
 install-packages
 
 
-## import posh profile
+##import posh profile
 
 import-psProfile -sourcePath $sourceProfilePath
 
-## install and configure git
+##install and configure git
 
-install-git
+###install-git
 
-# end script
+#end script
 
-write-output "Successfully setup Windows dev environment!"
+write-output "Successfully setup $type sandbox!"
