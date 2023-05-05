@@ -24,6 +24,7 @@ Thank you for your support and contributions, happy engineering!
   * Azure
 * [Markdown coding](/docs/guide-markdown.md)
 * [Powershell coding](/docs/guide-powershell.md)
+* [Terraform coding](/docs/guide-powershell.md)
 
 ## Codebase standards
 
