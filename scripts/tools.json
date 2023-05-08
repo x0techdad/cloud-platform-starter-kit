@@ -1,0 +1,53 @@
+[
+  {
+    "name": "vs code",
+    "version": "1.76.0", 
+    "platform": [
+      "cloud",
+      "pwsh"
+    ]
+  },
+  {
+    "name": "git",
+    "version": "2.39.2", 
+    "platform": [
+      "cloud",
+      "pwsh"
+    ]
+  },
+  {
+    "name": "azure cli",
+    "version": "2.47.0", 
+    "platform": [ "cloud" ]
+  },
+  {
+    "name": "aws cli",
+    "version": "2.11.9", 
+    "platform": [ "cloud" ]
+  },
+  {
+    "name": "gcp cli",
+    "version": "424.0.0", 
+    "platform": [ "cloud" ]
+  },
+  {
+    "name": "terraform",
+    "version": "1.4.4", 
+    "platform": [ "cloud" ]
+  },
+  {
+    "name": "tflint",
+    "version": "0.45.0", 
+    "platform": [ "cloud" ]
+  },
+  {
+    "name": "powershell",
+    "version": "7.3.3.0", 
+    "platform": [ "pwsh" ] 
+  },
+  {
+    "name": "ubuntu",
+    "version": "22.04", 
+    "platform": [ "wsl" ]
+  }
+]
