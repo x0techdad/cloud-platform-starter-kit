@@ -1,9 +1,9 @@
 ﻿<#
 .SYNOPSIS
-  Setup local PowerShell or Cloud dev sandbox on Windows OS.
+  Creates a Public Cloud or PowerShell (Pwsh) dev environment on Windows OS.
 
 .DESCRIPTION 
-  This script sets up a local PowerShell or Cloud sandbox on Windows OS, installs commonly used dev and build tools, applies recommended global environment settings and clones the specified git code repository. 
+  This script creates a Public Cloud or PowerShell (Pwsh) dev environment on Windows OS, installs specified tools, applies recommended environment settings and clones a specified git code repository. Tools to install with this script are specified in JSON format, please see the README for expected schema.
 
 .NOTES 
   Name        : setup-winSbx.ps1
@@ -24,15 +24,16 @@
   Winget.exe (included in Windows 10/11)
 
 .LINK 
-  Source code : https://github.com/x0techdad/cloud-platform-dev-ux/blob/main/scripts/setup-winSbx.ps1
+  Source code : https://github.com/x0techdad/cloud-platform-starter-kit/blob/main/scripts/setup-winSbx.ps1
 #>
 
 
 [CmdletBinding()]
 
-#parameters
+# parameters
 
 param (
+
   [parameter( 
     mandatory, 
     helpMessage = "Email address associated with git commits, global setting." 
@@ -51,17 +52,45 @@ param (
   [string]
   $gitName,
 
-  [parameter( 
-    helpMessage = "Sandbox type, valid arguments are 'cloud' or 'posh'." 
+  [parameter(
+    mandatory, 
+    helpMessage = "Environment type, valid arguments are 'cloud' or 'pwsh'." 
   )]
-  [validatePattern("/^posh|cloud$/gmi")] 
+  [validateSet("cloud", "pwsh", ignoreCase, errorMessage = "
+    Specify 'cloud' or 'pwsh'.")]
+  #[validatePattern("/^pwsh|cloud$/gmi")] 
   [string]
-  $type
+  $type = "cloud",
+
+  [parameter( 
+    mandatory, 
+    helpMessage = "Path to a tools manifest file in JSON, view project README for expected schema." 
+  )] 
+  [validatescript( 
+    { test-path $_ },
+    errorMessage = "Specified file path is invalid."  
+  )]
+  [string]
+  $toolManifestPath,
+
+  [parameter( 
+    mandatory, 
+    helpMessage = "Path to a temmplate PowerShell profile (.ps1)." 
+  )] 
+  [validatescript( 
+    { test-path $_ },
+    errorMessage = "Specified file path is invalid."  
+  )]
+  [string]
+  $pwshProfileTemplatePath
+
 )
 
-#variables
+# variables
 
-$winGetPackages   = @{
+<#
+$winGetPackages                 = @{
+
   'microsoft.visualstudiocode'  = '1.76.0'
   #'git.git'                     = '2.39.2'
   'microsoft.powershell'        = '7.3.3.0'
@@ -70,43 +99,45 @@ $winGetPackages   = @{
   #'google.cloudsdk'             = '424.0.0'
   #'hashicorp.terraform'         = '1.4.4'
   #'terraformlinters.tflint'     = '0.45.0'
+
 }
+#>
 
-$sourceProfilePath  = ".\powershell-profile.ps1"
-$fileRegistryPath   = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-$wingGetLogPath     = "$env:USERPROFILE\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir"
-$wingetErrorRgx     = '^.*Terminating\scontext:\s(0x\S*).*$'
-$wingetMsiErrorRgx  = '^.*Installation\sfailed.$'
+$fileRegistryPath         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$wingGetLogPath           = "$env:USERPROFILE\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir"
+$wingetErrorRgx           = '^.*Terminating\scontext:\s(0x\S*).*$'
+$wingetMsiErrorRgx        = '^.*Installation\sfailed.$'
 
+$toolManifestJson = get-content -path $toolManifestPath -Raw | convertFrom-json | where-object platform -match $type
 
-#functions
-
-##update system environment PATH variable
+# update system environment PATH variable function
 
 function update-envPath {
+
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") `
   + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
 }
 
-##show folders and files with "hidden" attribute in windows Explorer
+# set windows explorer settings function
 
 function update-explorerConfig {
-    
+
   push-location
   set-location $fileRegistryPath
-  write-output "Enabling the ability to view hidden files in Explorer"
+  write-output "Enabling the ability to view hidden files in Explorer."
   set-itemProperty . hidden "1"
-  write-output "Enabling the ability to view file extensions in Explorer"
+  write-output "Enabling the ability to view file extensions in Explorer."
   set-itemProperty . hideFileExt "0"
   pop-location
   stop-process -name explorer -force
 
 }
 
-##confirms package manager is installed and functional
+# confirm windows package manager is installed function
 
 function confirm-winget {
-    
+
   write-output "Confirming Winget is installed and functional..."
 
   try {
@@ -120,17 +151,17 @@ function confirm-winget {
 
     if ( $wingetError ) {
         
-        write-error "Error occurred when validating Winget installation: $out" -errorAction stop
+        write-error "Error occurred when validating Winget installation: $out." -errorAction stop
     
     } else {
         
-        write-output "Winget is installed and functional"
+        write-output "Winget is installed and functional!"
     
     }
 
   } catch [System.Management.Automation.CommandNotFoundException] {
 
-    throw "Winget is not found, please install then re-run script. $PSItem"
+    throw "Winget is not found, please install then re-run script $PSItem."
       
   } catch {
 
@@ -140,27 +171,24 @@ function confirm-winget {
 
 }
 
-##iterate through package hashtable and invoke the installation of package
+# invoke the installation of packages defined in hash table function
 
-function install-packages {
+function install-winGetApp {
 
-  write-output "Installing packages..."
-  
+  write-output "Installing apps..."
   confirm-winget
 
   foreach ( $app in $winGetPackages.keys) {
       
-    write-output "Installing $app version $($winGetPackages[$app]) via Winget"
-
+    write-output "Installing $app version $($winGetPackages[$app]) via Winget."
     install-package -packageID $app -version $winGetPackages[$app]
-    
     start-sleep -Seconds 2
   
   }
 
 }
 
-##install or update specified Winget package
+# install Winget package function
 
 function install-package ( $packageId, $version ){
 
@@ -177,7 +205,7 @@ function install-package ( $packageId, $version ){
       
       } elseif ( $out -match $version ) { 
         
-        write-output "$packageId version $version is already installed"
+        write-output "$packageId version $version is already installed!"
       
       } else {
 
@@ -205,7 +233,7 @@ function install-package ( $packageId, $version ){
 
     if ( $wingetError ) {
         
-      write-error "Error occured when installing $packageId version $version : $out" -errorAction stop
+      write-error "Error occured when installing $packageId version $version : $out." -errorAction stop
     
     }
 
@@ -217,19 +245,16 @@ function install-package ( $packageId, $version ){
 
 }
 
-##create posh profiles from template file
+# create posh profile from template function
 
-function import-psProfile ( $sourcePath ){
+function new-pwshProfile ( $templatePath ){
 
-  write-output "Importing posh profile..."
+  write-output "Creating new posh profile for the local user..."
 
   try {
       
     new-item -itemType file -path $profile -force | out-null
-    
-    get-content -path $sourcePath | set-content $profile -force
-      
-    . $profile
+    get-content -path $templatePath | set-content $profile -force
   
   } catch {
       
@@ -237,11 +262,11 @@ function import-psProfile ( $sourcePath ){
   
   }
 
-  write-output "Successfully imported profile, run '. `$profile' to reload profile in current session"
+  write-output "Successfully created posh profile. Restart posh or invoke the command: `. `$profile' to load the  new profile in this current session."
 
 }
 
-#install and configure git
+# install and apply git global configs function
 
 function install-git {
 
@@ -249,11 +274,7 @@ function install-git {
 
   try {
 
-    ###install git
-
     install-package -packageID git.git -version $winGetPackages['git.git']
-  
-    ###apply git configs
 
     write-output "Applying specified Git configs..."
 
@@ -276,30 +297,66 @@ function install-git {
   
   }
 
-  write-output "Successfully setup Git"
+  write-output "Successfully setup Git."
 
 }
 
-#start script
+# new cloud dev environment function
 
-##show file extensions and hidden files in Explorer
+function new-cloudDevEnv {
+
+  write-output "Creating a cloud dev environmnet on $..."
+
+  try {
+
+    write-warning "You are creating a cloud dev environment on Windows OS, there are larger cloud engineering communities and more tooling supports Linux. "
+
+    write-output "Enabling Windows Subsytem for Linux.."
+
+    $wslDistro        = get-content -path $toolManifestPath -Raw | convertFrom-json | where-object platform -match "wsl" 
+    $wslDistroId = [string]::concat($wslDistro.name, '-', $wslDistro.version)
+
+    wsl --install -d $wslDistroId
+  
+  } catch {
+    
+    throw "$PSItem"
+  
+  }
+
+  write-output "Successfully created cloud dev environment."
+
+}
+
+# new posh dev environment function
+
+function new-poshDevEnv {
+  
+  write-output "Creating a $type dev environmnet..."
+
+  try {
+
+  } catch {
+    
+    throw "$PSItem"
+  
+  }
+
+  write-output "Successfully created $type dev environment."
+
+}
+
+# start script
 
 update-explorerConfig
 
+new-pwshProfile -templatePath $pwshProfileTemplatePath
 
-##install app packages
+switch ( $type ) {
 
-install-packages
+  cloud { new-cloudDevEnv  }
+  posh  { new-poshDevEnv   }
 
+}
 
-##import posh profile
-
-import-psProfile -sourcePath $sourceProfilePath
-
-##install and configure git
-
-###install-git
-
-#end script
-
-write-output "Successfully setup $type sandbox!"
+# end script
