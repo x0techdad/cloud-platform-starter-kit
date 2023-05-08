@@ -305,19 +305,23 @@ function install-git {
 
 function new-cloudDevEnv {
 
-  write-output "Creating a cloud dev environmnet on $..."
+  write-output "Creating a cloud dev environmnet..."
 
   try {
 
     write-warning "You are creating a cloud dev environment on Windows OS, there are larger cloud engineering communities and more tooling supports Linux. "
-
     write-output "Enabling Windows Subsytem for Linux.."
 
-    $wslDistro        = get-content -path $toolManifestPath -Raw | convertFrom-json | where-object platform -match "wsl" 
+    $wslDistro   = get-content -path $toolManifestPath -Raw | convertFrom-json | where-object platform -match "wsl" 
     $wslDistroId = [string]::concat($wslDistro.name, '-', $wslDistro.version)
 
-    wsl --install -d $wslDistroId
-  
+    $out = & wsl --install -d $wslDistroId 2>&1 
+
+    if ( $out -match "Successfully*" ) {
+    } else {
+      write-error "Error occured when enabling WSL and deploying $wslDistroId : $out." -errorAction stop
+    }
+    
   } catch {
     
     throw "$PSItem"
@@ -332,7 +336,7 @@ function new-cloudDevEnv {
 
 function new-poshDevEnv {
   
-  write-output "Creating a $type dev environmnet..."
+  write-output "Creating a Pwsh dev environmnet..."
 
   try {
 
@@ -342,7 +346,7 @@ function new-poshDevEnv {
   
   }
 
-  write-output "Successfully created $type dev environment."
+  write-output "Successfully created Pwsh dev environment."
 
 }
 
